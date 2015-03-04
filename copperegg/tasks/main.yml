@@ -1,0 +1,22 @@
+# Role that can be used to install the CopperEgg agent in machine
+# Highly inspired by https://github.com/CopperEgg/revealcloud-puppet
+---
+- fail: msg = "Variable copperegg.api_key is not defined"
+  when: copperegg.api_key is not defined
+
+- name: Creating temporary workplace for installing CopperEgg agent
+  file: path=/tmp/revealcloud state=directory mode=0755
+  
+- name: Dowloading CopperEgg install script
+  get_url: url=http://{{copperegg.api_key}}@api.copperegg.com/rc.sh dest=/tmp/revealcloud/rc.sh
+  
+- name: Making install script executable
+  file: path=/tmp/revealcloud/rc.sh mode=755  
+  
+- name: Installing CopperEgg
+  sudo: yes
+  command: /tmp/revealcloud/rc.sh
+  environment:
+    RC_UUID: copperegg.uuid
+    RC_LABEL: copperegg.label
+    RC_TAG: copperegg.tag

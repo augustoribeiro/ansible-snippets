@@ -1,0 +1,6 @@
+---
+copperegg:
+  api_key: <API-KEY>
+  uuid: <UUID>
+  label: <LABEL>
+  tag: <TAG>
